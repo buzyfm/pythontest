@@ -1,0 +1,35 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+import math
+
+def calc(x):
+    return str(math.log(abs(12*math.sin(int(x)))))
+
+link = "http://suninjuly.github.io/get_attribute.html"
+
+try:
+    browser = webdriver.Chrome()
+    browser.get(link)
+
+    # находим елемент со значение для Х
+    treasure = browser.find_element(By.CSS_SELECTOR, "[id='treasure']")
+    x_element = treasure.get_attribute("valuex")
+    x = x_element
+    y = calc(x)
+
+    # находим поле ввода и вставляем
+    input1 = browser.find_element(By.ID, "answer")
+    input1.send_keys(y)
+    browser.find_element(By.CSS_SELECTOR, "[type='checkbox']") .click()
+    browser.find_element(By.CSS_SELECTOR, "[id='robotsRule']") .click()
+    time.sleep(1)
+    browser.find_element(By.CSS_SELECTOR, "button.btn") .click()
+
+finally:
+    # ожидание чтобы визуально оценить результаты прохождения скрипта
+    time.sleep(5)
+    # закрываем браузер после всех манипуляций
+    browser.quit()
+
+
